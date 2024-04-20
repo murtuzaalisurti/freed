@@ -350,5 +350,21 @@
   {
     "id": "feac69d7-af6d-4705-acaa-593b294de5bb",
     "url": "https://www.lenesaile.com/en/feed.xml"
+  },
+  {
+    "id": "83f59c9e-bbe3-4316-856d-07d6ad7f35e9",
+    "url": "https://www.simplethread.com/feed/"
+  },
+  {
+    "id": "2ad2c074-b265-4a14-9783-2f50d523fe19",
+    "url": "https://clagnut.com/feeds/fullposts.xml"
+  },
+  {
+    "id": "6f8142af-d247-47ad-a335-6d629924cb76",
+    "url": "https://daniel.haxx.se/blog/feed/"
+  },
+  {
+    "id": "492d69c3-b53d-4f55-b55a-9de4861c7a39",
+    "url": "https://jlelse.blog/.rss"
   }
 ]
