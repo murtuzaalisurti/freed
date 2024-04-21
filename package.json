@@ -15,10 +15,10 @@
   },
   "dependencies": {
     "@astrojs/netlify": "^5.2.0",
-    "@fontsource-variable/montserrat": "^5.0.18",
-    "@fontsource-variable/rubik": "^5.0.21",
+    "@fontsource-variable/montserrat": "^5.0.19",
+    "@fontsource-variable/rubik": "^5.0.22",
     "@netlify/functions": "^2.6.0",
-    "astro": "^4.6.1",
+    "astro": "^4.6.3",
     "consola": "^3.2.3",
     "dayjs": "^1.11.10",
     "is-ci": "^3.0.1",
@@ -28,8 +28,8 @@
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
-    "@commitlint/cli": "^19.2.1",
-    "@commitlint/config-conventional": "^19.1.0",
+    "@commitlint/cli": "^19.2.2",
+    "@commitlint/config-conventional": "^19.2.2",
     "@types/prompts": "^2.4.9",
     "husky": "^9.0.11",
     "ts-node": "^10.9.2"
