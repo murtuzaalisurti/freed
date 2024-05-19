@@ -386,5 +386,9 @@
   {
     "id": "c702b63b-ba6d-4b84-8db6-10bd4a666fe2",
     "url": "https://darn.es/rss.xml"
+  },
+  {
+    "id": "80dc25eb-1924-4926-8c3c-77dd3b3accd6",
+    "url": "https://cianfrani.dev/rss.xml"
   }
 ]
