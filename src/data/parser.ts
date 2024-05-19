@@ -25,7 +25,7 @@ const parseAndStoreFeeds = async (list: { id: string, url: string }[]) => {
     logger.start("Fetching feeds...\n")
 
     const feedPromises = list.map(async (site) => {
-        console.time(`time for feed: ${site.url}`)
+        console.time(`${site.url}`)
         try {
             let feed: feedItem;
             if (!feeds.items.some(i => i.id === site.id)) {
@@ -37,7 +37,7 @@ const parseAndStoreFeeds = async (list: { id: string, url: string }[]) => {
                 feed = feeds.items.find(i => i.id === site.id) as feedItem
                 console.warn(`\nfeed already exists ✅`)
             }
-            console.timeEnd(`time for feed: ${site.url}`)
+            console.timeEnd(`${site.url}`)
             return feed
         } catch (error) {
             logger.error({
@@ -47,7 +47,7 @@ const parseAndStoreFeeds = async (list: { id: string, url: string }[]) => {
                 },
                 error
             })
-            console.timeEnd(`time for feed: ${site.url}`)
+            console.timeEnd(`${site.url}`)
         }
     })
 
