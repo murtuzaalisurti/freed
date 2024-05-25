@@ -390,5 +390,13 @@
   {
     "id": "80dc25eb-1924-4926-8c3c-77dd3b3accd6",
     "url": "https://cianfrani.dev/rss.xml"
+  },
+  {
+    "id": "dc5040b7-7b92-42e4-a812-7447a5678fe9",
+    "url": "https://nolanlawson.com/feed/"
+  },
+  {
+    "id": "b00d141d-c53f-4d67-b0b5-9d31e59e4fb2",
+    "url": "https://stephencharlesweiss.com/rss.xml"
   }
 ]
