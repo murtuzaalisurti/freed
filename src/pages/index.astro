@@ -19,14 +19,20 @@ const feedsToSort = feeds.filter(f => {
     return (f.items.length !== 0 && f.title !== 'Syntackle')
 }).map(feed => {
     feed.items.sort((a: Record<string, any>, b: Record<string, any>) => {
-        return (new Date(b.pubDate) as unknown as number) - (new Date(a.pubDate) as unknown as number)
+        const publishDateOfA = a.pubDate || a.isoDate
+        const publishDateOfB = b.pubDate || b.isoDate
+        return (new Date(publishDateOfB) as unknown as number) - (new Date(publishDateOfA) as unknown as number)
     })
     return feed
 })
 
 feedsToSort.sort((a, b) => {
-    const lastUpdatedA = (a.items.length !== 0 ? a.items[0].pubDate : a.lastBuildDate) as string
-    const lastUpdatedB = (b.items.length !== 0 ? b.items[0].pubDate : b.lastBuildDate) as string
+    const publishDateOfA = a.items[0].pubDate || a.items[0].isoDate
+    const publishDateOfB = b.items[0].pubDate || b.items[0].isoDate
+    const lastBuildDateOfA = a.lastBuildDate || a.items[0].pubDate || a.items[0].isoDate
+    const lastBuildDateOfB = b.lastBuildDate || b.items[0].pubDate || b.items[0].isoDate
+    const lastUpdatedA = (a.items.length !== 0 ? publishDateOfA : lastBuildDateOfA) as string
+    const lastUpdatedB = (b.items.length !== 0 ? publishDateOfB : lastBuildDateOfB) as string
     return (new Date(lastUpdatedB) as unknown as number) - (new Date(lastUpdatedA) as unknown as number);
 })
 
@@ -42,7 +48,9 @@ feeds = [
     <div id="feed_list" data-feed-list={
         JSON.stringify(
             feeds.map(feed => {
-                const lastUpdatedDate = new Date((feed.items.length !== 0 ? feed.items[0].pubDate : feed.lastBuildDate) as string);
+                const publishDate = feed.items[0].pubDate || feed.items[0].isoDate
+                const lastBuildDate = feed.lastBuildDate || feed.items[0].pubDate || feed.items[0].isoDate
+                const lastUpdatedDate = new Date((feed.items.length !== 0 ? publishDate : lastBuildDate) as string);
                 return {
                     id: feed.id,
                     title: feed.title,
@@ -57,7 +65,9 @@ feeds = [
     }>
         {
             feeds ? feeds?.map((feed) => {
-                const lastUpdated = (feed.items.length !== 0 ? feed.items[0].pubDate : feed.lastBuildDate) as string;
+                const publishDate = feed.items[0].pubDate || feed.items[0].isoDate
+                const lastBuildDate = feed.lastBuildDate || feed.items[0].pubDate || feed.items[0].isoDate
+                const lastUpdated = (feed.items.length !== 0 ? publishDate : lastBuildDate) as string;
                 return (
                     <div class="feed" data-items={`${feed.items.length !== 0}`} data-last-published={new Date(lastUpdated)} data-feed-id={feed.id}>
                         <h2>
