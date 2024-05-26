@@ -402,5 +402,13 @@
   {
     "id": "8dc1c9b2-a6fb-4344-a690-64260cf1d27d",
     "url": "https://www.aleksandrhovhannisyan.com/feed.xml"
+  },
+  {
+    "id": "57e61912-4c3e-4b0e-85cf-e27268fea3b3",
+    "url": "https://norvig.com/rss-feed.xml"
+  },
+  {
+    "id": "54ee9ec8-9a88-46f7-a7c4-92f67b345666",
+    "url": "https://ruslanspivak.com/feeds/all.atom.xml"
   }
 ]
