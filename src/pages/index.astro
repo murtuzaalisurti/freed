@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { allFeeds } from "../data/parser";
 import { fetchFeeds } from '../lib/api/fetchFeeds'
+import { FeedDataType, getDates } from "../lib/utils/dates";
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -19,21 +20,17 @@ const feedsToSort = feeds.filter(f => {
     return (f.items.length !== 0 && f.title !== 'Syntackle')
 }).map(feed => {
     feed.items.sort((a: Record<string, any>, b: Record<string, any>) => {
-        const publishDateOfA = a.pubDate || a.isoDate
-        const publishDateOfB = b.pubDate || b.isoDate
-        return (new Date(publishDateOfB) as unknown as number) - (new Date(publishDateOfA) as unknown as number)
+        const { publishDate: publishDateOfA } = getDates(a, FeedDataType.FEED_ITEM)
+        const { publishDate: publishDateOfB } = getDates(b, FeedDataType.FEED_ITEM)
+        return (new Date(publishDateOfB as string) as unknown as number) - (new Date(publishDateOfA as string) as unknown as number)
     })
     return feed
 })
 
 feedsToSort.sort((a, b) => {
-    const publishDateOfA = a.items[0].pubDate || a.items[0].isoDate
-    const publishDateOfB = b.items[0].pubDate || b.items[0].isoDate
-    const lastBuildDateOfA = a.lastBuildDate || a.items[0].pubDate || a.items[0].isoDate
-    const lastBuildDateOfB = b.lastBuildDate || b.items[0].pubDate || b.items[0].isoDate
-    const lastUpdatedA = (a.items.length !== 0 ? publishDateOfA : lastBuildDateOfA) as string
-    const lastUpdatedB = (b.items.length !== 0 ? publishDateOfB : lastBuildDateOfB) as string
-    return (new Date(lastUpdatedB) as unknown as number) - (new Date(lastUpdatedA) as unknown as number);
+    const { lastUpdated: lastUpdatedA } = getDates(a, FeedDataType.FEED)
+    const { lastUpdated: lastUpdatedB } = getDates(b, FeedDataType.FEED)
+    return (new Date(lastUpdatedB as string) as unknown as number) - (new Date(lastUpdatedA as string) as unknown as number);
 })
 
 feeds = [
@@ -48,9 +45,8 @@ feeds = [
     <div id="feed_list" data-feed-list={
         JSON.stringify(
             feeds.map(feed => {
-                const publishDate = feed.items[0].pubDate || feed.items[0].isoDate
-                const lastBuildDate = feed.lastBuildDate || feed.items[0].pubDate || feed.items[0].isoDate
-                const lastUpdatedDate = new Date((feed.items.length !== 0 ? publishDate : lastBuildDate) as string);
+                const { lastUpdated } = getDates(feed, FeedDataType.FEED)
+                const lastUpdatedDate = new Date(lastUpdated as string);
                 return {
                     id: feed.id,
                     title: feed.title,
@@ -65,11 +61,9 @@ feeds = [
     }>
         {
             feeds ? feeds?.map((feed) => {
-                const publishDate = feed.items[0].pubDate || feed.items[0].isoDate
-                const lastBuildDate = feed.lastBuildDate || feed.items[0].pubDate || feed.items[0].isoDate
-                const lastUpdated = (feed.items.length !== 0 ? publishDate : lastBuildDate) as string;
+                const { lastUpdated } = getDates(feed, FeedDataType.FEED)
                 return (
-                    <div class="feed" data-items={`${feed.items.length !== 0}`} data-last-published={new Date(lastUpdated)} data-feed-id={feed.id}>
+                    <div class="feed" data-items={`${feed.items.length !== 0}`} data-last-published={new Date(lastUpdated as string)} data-feed-id={feed.id}>
                         <h2>
                             <a href={`/feed/${feed.id}`}>{feed.title}</a>
                         </h2>
@@ -77,7 +71,7 @@ feeds = [
                         {
                             feed.title === "Syntackle" ? <p>shameless promotion &#10085;</p> : <></>
                         }
-                        <time datetime={new Date(lastUpdated).toISOString()}>
+                        <time datetime={new Date(lastUpdated as string).toISOString()}>
                             {
                                 dayjs().to(dayjs(lastUpdated))
                             }
