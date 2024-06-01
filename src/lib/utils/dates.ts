@@ -1,15 +1,6 @@
-export enum FeedDataType {
-    FEED="feed",
-    FEED_ITEM="feedItem"
-}
+import { FeedDataType, type DateReturnType, type Feed, type FeedItem } from "./types"
 
-interface DateReturnType {
-    publishDate: Date | string | null,
-    lastBuildDate?: Date | string | null,
-    lastUpdated?: Date | string | null
-}
-
-export const getDates = (data: Record<string, any>, type: FeedDataType): DateReturnType => {
+export const getDates = (data: Feed | FeedItem, type: FeedDataType): DateReturnType => {
     if (type === FeedDataType.FEED) {
         const publishDate = data.items[0].pubDate || data.items[0].isoDate || null
         const lastBuildDate = data.lastBuildDate || data.items[0].pubDate || data.items[0].isoDate || null

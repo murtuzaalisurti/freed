@@ -66,7 +66,7 @@ const parseAndStoreFeeds = async (list: { id: string, url: string }[]) => {
     failedToFetchFeeds.length > 0 && logger.warn(`${colors.yellow(`Failed feeds\n`)}${JSON.stringify(failedToFetchFeeds, null, 2)}`)
 }
 
-export const allFeeds = async (list: { id: string, url: string }[]) => {
+export const fetchFeedsData = async (list: { id: string, url: string }[]) => {
 
     if (!feeds.time) {
         await parseAndStoreFeeds(list)

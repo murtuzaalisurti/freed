@@ -1,8 +1,10 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { allFeeds } from "../../data/parser";
-import { fetchFeeds } from "../../lib/api/fetchFeeds";
-import { getDates, FeedDataType } from "../../lib/utils/dates";
+import { fetchFeedsData } from "../../data/parser";
+import { getFeedList } from "../../lib/api/fetchFeeds";
+import { getDates } from "../../lib/utils/dates";
+import { FeedDataType, type Feed, type FeedItem } from "../../lib/utils/types";
+import sort from "../../lib/utils/sortFeedsOrFeedItems";
 
 import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
@@ -11,25 +13,25 @@ dayjs.extend(LocalizedFormat);
 
 export async function getStaticPaths() {
     try {
-        const res = await fetchFeeds();
+        const res = await getFeedList();
         const { data } = JSON.parse(res);
-        const feeds = await allFeeds(data as { id: string; url: string }[]);
+        const feeds = await fetchFeedsData(data as { id: string; url: string }[]);
 
-        const feedList: Record<string, Record<string, any>>[] = feeds.map(
+        const feedPathAndPageProp: Record<string, Record<string, any>>[] = feeds.map(
             (fl) => {
                 return {
                     params: {
                         id: fl.id,
                     },
                     props: {
-                        feed: feeds.filter((f) => f.id === fl.id),
+                        feed: feeds.filter((f) => f.id === fl.id)[0],
                     },
                 };
             }
         );
 
-        return feedList
-            ? feedList
+        return feedPathAndPageProp
+            ? feedPathAndPageProp
             : [
                   {
                       params: {
@@ -56,63 +58,55 @@ export async function getStaticPaths() {
 }
 
 const { feed } = Astro.props;
-
-feed[0].items.sort((a: Record<string, any>, b: Record<string, any>) => {
-    const { publishDate: publishDateOfA } = getDates(a, FeedDataType.FEED_ITEM)
-    const { publishDate: publishDateOfB } = getDates(b, FeedDataType.FEED_ITEM)
-    return (new Date(publishDateOfB as string) as unknown as number) - (new Date(publishDateOfA as string) as unknown as number);
-});
-
-const { lastUpdated } = getDates(feed[0], FeedDataType.FEED);
+sort(feed, FeedDataType.FEED_ITEM);
+const { lastUpdated } = getDates(feed, FeedDataType.FEED);
 
 ---
 
-<Layout title=`Feed - ${feed[0].title} - rssed`>
-    <div id="feed_content" data-feed-id={feed[0].id} data-last-published-time={lastUpdated}>
+<Layout title=`Feed - ${feed ? feed.title : "Not Found"} - rssed`>
+    <div id="feed_content" data-feed-id={feed.id} data-last-published-time={lastUpdated}>
         <div>
             <hr class="design_element" />
-            <h2>{feed ? feed[0].title : "feed not found!"}</h2>
+            <h2>{feed ? feed.title : "feed not found!"}</h2>
             <p>{feed && "Posts"}</p>
         </div>
         {
-            feed && feed[0].items.length !== 0 ? (
-                feed?.map((f: any) => {
-                    return f.items.map((item: any) => {
-                        const description =
-                            item.contentSnippet ||
-                            item.summary ||
-                            item.content ||
-                            item["content:encodedSnippet"] ||
-                            item["content:encoded"];
-                        return (
-                            <div class="post">
-                                <h3>
-                                    {
-                                        item.title ? (
-                                            <a href={item.link} target="_blank" rel="noopener noreferrer">
-                                                {item.title}
-                                            </a>
-                                            <>
-                                                🔗
-                                            </>
-                                        ) : (
-                                            <a href={item.link} target="_blank" rel="noopener noreferrer">
-                                                {
-                                                    dayjs(item.pubDate).format('LLL')
-                                                }
-                                            </a>
-                                        )
-                                    }
-                                </h3>
-                                {description && (
-                                    <p>
-                                        {`${description.substring(0, 150)} `}
-                                        <a href={item.link}>[...]</a>
-                                    </p>
-                                )}
-                            </div>
-                        );
-                    });
+            feed && feed.items.length !== 0 ? (
+                feed.items.map((item: FeedItem) => {
+                    const description =
+                        item.contentSnippet ||
+                        item.summary ||
+                        item.content ||
+                        item["content:encodedSnippet"] ||
+                        item["content:encoded"];
+                    return (
+                        <div class="post">
+                            <h3>
+                                {
+                                    item.title ? (
+                                        <a href={item.link} target="_blank" rel="noopener noreferrer">
+                                            {item.title}
+                                        </a>
+                                        <>
+                                            🔗
+                                        </>
+                                    ) : (
+                                        <a href={item.link} target="_blank" rel="noopener noreferrer">
+                                            {
+                                                dayjs(item.pubDate).format('LLL')
+                                            }
+                                        </a>
+                                    )
+                                }
+                            </h3>
+                            {description && (
+                                <p>
+                                    {`${description.substring(0, 150)} `}
+                                    <a href={item.link}>[...]</a>
+                                </p>
+                            )}
+                        </div>
+                    );
                 })
             ) : (
                 <p>No posts found.</p>

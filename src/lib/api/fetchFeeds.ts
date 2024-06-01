@@ -65,7 +65,7 @@ export const validateFeeds = (feedlist: { id: string, url: string }[]) => {
     }
 }
 
-export const fetchFeeds = async (feedId?: string) => {
+export const getFeedList = async (feedId?: string) => {
     try {
         validateFeeds(FeedList);
 

@@ -1,8 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { allFeeds } from "../data/parser";
-import { fetchFeeds } from '../lib/api/fetchFeeds'
-import { FeedDataType, getDates } from "../lib/utils/dates";
+import { fetchFeedsData } from "../data/parser";
+import { getFeedList } from '../lib/api/fetchFeeds'
+import { getDates } from "../lib/utils/dates";
+import { FeedDataType } from "../lib/utils/types";
+import sort from "../lib/utils/sortFeedsOrFeedItems";
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -12,27 +14,21 @@ dayjs.extend(relativeTime);
 let feeds = null;
 let err = null;
 
-const res = await fetchFeeds()
+const res = await getFeedList()
 const { data } = JSON.parse(res)
-feeds = await allFeeds(data)
+feeds = await fetchFeedsData(data)
 
+// removing 'Syntackle' feed and feeds having no items from sorting
 const feedsToSort = feeds.filter(f => {
     return (f.items.length !== 0 && f.title !== 'Syntackle')
 }).map(feed => {
-    feed.items.sort((a: Record<string, any>, b: Record<string, any>) => {
-        const { publishDate: publishDateOfA } = getDates(a, FeedDataType.FEED_ITEM)
-        const { publishDate: publishDateOfB } = getDates(b, FeedDataType.FEED_ITEM)
-        return (new Date(publishDateOfB as string) as unknown as number) - (new Date(publishDateOfA as string) as unknown as number)
-    })
+    sort(feed, FeedDataType.FEED_ITEM)
     return feed
 })
 
-feedsToSort.sort((a, b) => {
-    const { lastUpdated: lastUpdatedA } = getDates(a, FeedDataType.FEED)
-    const { lastUpdated: lastUpdatedB } = getDates(b, FeedDataType.FEED)
-    return (new Date(lastUpdatedB as string) as unknown as number) - (new Date(lastUpdatedA as string) as unknown as number);
-})
+sort(feedsToSort, FeedDataType.FEED)
 
+// adding the 'Syntackle' feed and the feeds having no items to their respective list position along with sorted feeds
 feeds = [
     ...feeds.filter(f => f.title === 'Syntackle'),
     ...feedsToSort,
