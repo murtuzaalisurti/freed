@@ -410,5 +410,9 @@
   {
     "id": "54ee9ec8-9a88-46f7-a7c4-92f67b345666",
     "url": "https://ruslanspivak.com/feeds/all.atom.xml"
+  },
+  {
+    "id": "a802fdd4-b022-498c-8323-3c11616e7c48",
+    "url": "https://webdev.rip/atom"
   }
 ]
