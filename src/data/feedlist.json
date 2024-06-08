@@ -414,5 +414,9 @@
   {
     "id": "a802fdd4-b022-498c-8323-3c11616e7c48",
     "url": "https://webdev.rip/atom"
+  },
+  {
+    "id": "9f61b269-cd1b-42c7-91ef-28fa48a3d22f",
+    "url": "https://martinfowler.com/feed.atom"
   }
 ]
