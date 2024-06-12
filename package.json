@@ -14,11 +14,11 @@
     "add-feed": "node --no-warnings=ExperimentalWarning --loader ts-node/esm scripts/addFeed.ts"
   },
   "dependencies": {
-    "@astrojs/netlify": "^5.2.1",
+    "@astrojs/netlify": "^5.3.0",
     "@fontsource-variable/montserrat": "^5.0.19",
     "@fontsource-variable/rubik": "^5.0.22",
     "@netlify/functions": "^2.7.0",
-    "astro": "^4.10.0",
+    "astro": "^4.10.2",
     "consola": "^3.2.3",
     "dayjs": "^1.11.11",
     "is-ci": "^3.0.1",
