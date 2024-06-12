@@ -33,6 +33,14 @@ const { title } = Astro.props;
         <title>{title}</title>
     </head>
     <body>
+        <back-to-top>
+            <a class="back-to-top-fallback" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+            </a>
+            <template>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+            </template>
+        </back-to-top>
         <header>
             <h1>
                 <a style={{ textDecoration: "none" }} href="/">rssed</a>
@@ -99,6 +107,10 @@ const { title } = Astro.props;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
     }
 
     body::-webkit-scrollbar {
@@ -210,6 +222,37 @@ const { title } = Astro.props;
     h3 {
         font-size: 1.35rem;
     }
+
+    .back-to-top, a.back-to-top-fallback {
+        bottom: 3rem;
+        right: 2rem;
+        width: 3rem;
+        height: 3rem;
+        border: none;
+        border-radius: 50%;
+        background-color: var(--text-color);
+        z-index: 10;
+        cursor: pointer;
+        box-shadow: 0 0 2rem 0.5rem var(--button-hover);
+        transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+    }
+
+    a.back-to-top-fallback {
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--text-color);
+    }
+
+    a.back-to-top-fallback svg, .back-to-top svg {
+        height: 70%;
+        stroke: var(--background-color);
+        stroke-width: 3;
+        fill: none;
+        scale: 1.35;
+        transform: translateY(-2%);
+    }
 </style>
 
 <style>
@@ -237,3 +280,7 @@ const { title } = Astro.props;
         background: var(--button-hover);
     }
 </style>
+
+<script>
+    import.meta.glob("/node_modules/@murtuzaalisurti/back-to-top/public/main.js", { eager: true });
+</script>
