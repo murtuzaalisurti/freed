@@ -4,9 +4,10 @@ import "@fontsource-variable/rubik";
 
 interface Props {
     title: string;
+    totalFeedCount: number;
 }
 
-const { title } = Astro.props;
+const { title, totalFeedCount } = Astro.props;
 ---
 
 <!doctype html>
@@ -87,6 +88,12 @@ const { title } = Astro.props;
                         >
                     </p>
                 </a>
+                {
+                    totalFeedCount > 0 && (
+                        <p>+</p>
+                        <p>{totalFeedCount} feeds</p>
+                    )
+                }
             </div>
         </header>
         <main>
@@ -257,11 +264,14 @@ const { title } = Astro.props;
 
 <style>
     .add_new_feed {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
         margin: 1.2rem 0 0 0;
         width: fit-content;
     }
 
-    .add_new_feed p {
+    .add_new_feed a p {
         display: flex;
         align-items: center;
         gap: 0.5rem;
@@ -275,7 +285,7 @@ const { title } = Astro.props;
             background 0.35s;
     }
 
-    .add_new_feed p:hover {
+    .add_new_feed a p:hover {
         opacity: 1;
         background: var(--button-hover);
     }

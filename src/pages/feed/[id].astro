@@ -25,6 +25,7 @@ export async function getStaticPaths() {
                     },
                     props: {
                         feed: feeds.filter((f) => f.id === fl.id)[0],
+                        feedList: data
                     },
                 };
             }
@@ -39,6 +40,7 @@ export async function getStaticPaths() {
                       },
                       props: {
                           feed: null,
+                          feedList: data
                       },
                   },
               ];
@@ -51,19 +53,20 @@ export async function getStaticPaths() {
                 },
                 props: {
                     feed: null,
+                    feedList: []
                 },
             },
         ];
     }
 }
 
-const { feed } = Astro.props;
+const { feed, feedList } = Astro.props;
 sort(feed, FeedDataType.FEED_ITEM);
 const { lastUpdated } = getDates(feed, FeedDataType.FEED);
 
 ---
 
-<Layout title=`Feed - ${feed ? feed.title : "Not Found"} - rssed`>
+<Layout title=`Feed - ${feed ? feed.title : "Not Found"} - rssed` totalFeedCount={feedList.length}>
     <div id="feed_content" data-feed-id={feed.id} data-last-published-time={lastUpdated}>
         <div>
             <hr class="design_element" />

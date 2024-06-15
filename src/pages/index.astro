@@ -37,7 +37,7 @@ feeds = [
 
 ---
 
-<Layout title="rssed - a collection of developer RSS feeds - blogroll">
+<Layout title="rssed - a collection of developer RSS feeds - blogroll" totalFeedCount={data.length}>
     <div id="feed_list" data-feed-list={
         JSON.stringify(
             feeds.map(feed => {
