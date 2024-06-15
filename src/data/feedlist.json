@@ -438,5 +438,13 @@
   {
     "id": "abad841b-744e-49b9-929b-18b8482672a5",
     "url": "https://www.oddbird.net/feed.atom"
+  },
+  {
+    "id": "4d51dade-9ca1-4a83-8e7f-36b36bd44e42",
+    "url": "https://antonz.org/index.xml"
+  },
+  {
+    "id": "369096b2-44fb-43c0-aa63-634d85e16e70",
+    "url": "https://polypane.app/rss.xml"
   }
 ]
