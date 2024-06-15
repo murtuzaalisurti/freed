@@ -418,5 +418,25 @@
   {
     "id": "9f61b269-cd1b-42c7-91ef-28fa48a3d22f",
     "url": "https://martinfowler.com/feed.atom"
+  },
+  {
+    "id": "523fd363-dd7d-453c-a92d-ad3ae352c780",
+    "url": "https://localghost.dev/feed.xml"
+  },
+  {
+    "id": "a6a47741-b876-4549-aee4-b18f58002b53",
+    "url": "https://simonmacdonald.com/blog/rss"
+  },
+  {
+    "id": "c356c32a-9295-49bc-9b1c-68c551a416bc",
+    "url": "https://navillus.dev/feed/blog.xml"
+  },
+  {
+    "id": "b58d509f-54b5-4f63-bcab-6f66f2d28e2a",
+    "url": "https://cjihrig.com/feed"
+  },
+  {
+    "id": "abad841b-744e-49b9-929b-18b8482672a5",
+    "url": "https://www.oddbird.net/feed.atom"
   }
 ]
