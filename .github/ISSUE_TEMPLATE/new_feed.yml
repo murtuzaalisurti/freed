@@ -1,0 +1,23 @@
+name: New Feed
+description: To add a new feed to feedlist.json
+title: "[FEED]: "
+labels: ["feed"]
+body:
+  - type: markdown
+    attributes:
+      value: Fill this form for new feed suggestion.
+  - type: input
+    id: url
+    attributes:
+      label: Feed URL
+      description: Type/Paste the feed URL.
+      placeholder: "ex. https://syntackle.com/feed.xml"
+    validations:
+      required: true
+  - type: textarea
+    id: moreInfo
+    attributes:
+      label: More Info
+      placeholder: Anything else you would like us to know?
+    validations:
+      required: false
