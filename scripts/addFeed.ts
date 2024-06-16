@@ -1,5 +1,6 @@
 import fs from 'fs'
-import { randomUUID } from 'crypto'
+// @ts-ignore
+import { v7 } from 'uuid';
 import prompts, { type PromptObject } from 'prompts'
 import { logger } from '../src/lib/logger.ts'
 import { validateFeeds } from '../src/lib/api/fetchFeeds.ts'
@@ -12,7 +13,7 @@ const updatedFeeds = (feeds: { id: string, url: string }[], url: string) => {
     return [
         ...feeds,
         {
-            id: randomUUID(),
+            id: v7(),
             url
         }
     ]
