@@ -10,7 +10,7 @@
     "astro": "astro",
     "prepare": "is-ci || husky",
     "commitlint": "commitlint --edit",
-    "genuuid": "node -e \"console.log(require('crypto').randomUUID())\"",
+    "genuuid": "node -e \"console.log(require('uuid').v7())\"",
     "add-feed": "node --no-warnings=ExperimentalWarning --loader ts-node/esm scripts/addFeed.ts"
   },
   "dependencies": {
