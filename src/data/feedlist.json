@@ -446,5 +446,33 @@
   {
     "id": "369096b2-44fb-43c0-aa63-634d85e16e70",
     "url": "https://polypane.app/rss.xml"
+  },
+  {
+    "id": "019036a8-8952-7003-a8ce-199cbaeba2b5",
+    "url": "https://simonwillison.net/atom/everything/"
+  },
+  {
+    "id": "019036a8-e25f-744e-8dad-715062ef1733",
+    "url": "https://css-tricks.com/feed/"
+  },
+  {
+    "id": "019036a9-31b4-7dd4-a5e4-6f9497fabb86",
+    "url": "https://feeds.feedburner.com/GiantRobotsSmashingIntoOtherGiantRobots"
+  },
+  {
+    "id": "019036a9-9091-7ff2-9a78-c73d11c43e90",
+    "url": "https://www.rhysmills.com/feed.xml"
+  },
+  {
+    "id": "019036a9-d2e9-7554-b265-1f719411c8bb",
+    "url": "https://jhey.dev/rss/rss.xml"
+  },
+  {
+    "id": "019036aa-13eb-755d-ab5a-bf0ce87d9313",
+    "url": "https://geoffrich.net/feed.xml"
+  },
+  {
+    "id": "019036aa-5be3-7cc4-b937-42f353886bb3",
+    "url": "https://threedots.tech/index.xml"
   }
 ]
