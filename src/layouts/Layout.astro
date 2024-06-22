@@ -21,7 +21,7 @@ const { title, totalFeedCount } = Astro.props;
             name="description"
             content="a collection of dev rss feeds - blogroll"
         />
-        <meta property="og:title" content="rssed" />
+        <meta property="og:title" content={title} />
         <meta
             property="og:description"
             content="a collection of dev rss feeds - blogroll"
@@ -31,7 +31,7 @@ const { title, totalFeedCount } = Astro.props;
             property="og:image:secure_url"
             content="https://rssed.netlify.app/assets/rssedOg.jpg"
         />
-        <title>{title}</title>
+        <title data-pagefind-meta="title">{title}</title>
     </head>
     <body>
         <back-to-top>
@@ -293,4 +293,17 @@ const { title, totalFeedCount } = Astro.props;
 
 <script>
     import.meta.glob("/node_modules/@murtuzaalisurti/back-to-top/public/main.js", { eager: true });
+</script>
+
+<script defer is:inline>
+    (async () => {
+        const pagefind = await import("/pagefind/pagefind.js");
+        pagefind.init();
+
+        const results = await (await pagefind.search("release")).results;
+        for (const result of results) {
+            console.log((await result.data()).meta.title)
+            console.log((await result.data()).excerpt)
+        }
+    })()
 </script>
