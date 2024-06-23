@@ -1,2 +1,2 @@
 site: dist
-glob: "**/*.{html}"
+glob: "**/feed/**/*.{html}"

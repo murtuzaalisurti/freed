@@ -95,6 +95,10 @@ const { title, totalFeedCount } = Astro.props;
                     )
                 }
             </div>
+            <search>
+                <input id="search" type="search" />
+                <div id="searchResults"></div>
+            </search>
         </header>
         <main>
             <slot />
@@ -297,13 +301,21 @@ const { title, totalFeedCount } = Astro.props;
 
 <script defer is:inline>
     (async () => {
-        const pagefind = await import("/pagefind/pagefind.js");
-        pagefind.init();
+        let pagefind;
+        document.querySelector("#search").addEventListener("focus", async (e) => {
+            if (!pagefind) {
+                pagefind = await import("/pagefind/pagefind.js");
+                pagefind.init();
+            }
+        })
 
-        const results = await (await pagefind.search("release")).results;
-        for (const result of results) {
-            console.log((await result.data()).meta.title)
-            console.log((await result.data()).excerpt)
-        }
+        document.querySelector("#search").addEventListener("keydown", async (e) => {
+            const results = await (await pagefind.search(e.target.value)).results;
+            for (const result of results) {
+                const data = await result.data();
+                console.log(data, data.meta.title, data.excerpt);
+            }
+        })
+
     })()
 </script>
