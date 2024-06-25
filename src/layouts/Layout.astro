@@ -36,10 +36,28 @@ const { title, totalFeedCount } = Astro.props;
     <body>
         <back-to-top>
             <a class="back-to-top-fallback" href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    ><path d="m18 15-6-6-6 6"></path></svg
+                >
             </a>
             <template>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    ><path d="m18 15-6-6-6 6"></path></svg
+                >
             </template>
         </back-to-top>
         <header>
@@ -90,13 +108,15 @@ const { title, totalFeedCount } = Astro.props;
                 </a>
                 {
                     totalFeedCount > 0 && (
-                        <p>+</p>
-                        <p>{totalFeedCount} feeds</p>
+                        <>
+                            <p>+</p>
+                            <p>{totalFeedCount} feeds</p>
+                        </>
                     )
                 }
             </div>
             <search>
-                <input id="search" type="search" />
+                <input id="search" type="text" autocomplete="off" />
                 <div id="searchResults"></div>
             </search>
         </header>
@@ -234,7 +254,8 @@ const { title, totalFeedCount } = Astro.props;
         font-size: 1.35rem;
     }
 
-    .back-to-top, a.back-to-top-fallback {
+    .back-to-top,
+    a.back-to-top-fallback {
         bottom: 3rem;
         right: 2rem;
         width: 3rem;
@@ -245,7 +266,9 @@ const { title, totalFeedCount } = Astro.props;
         z-index: 10;
         cursor: pointer;
         box-shadow: 0 0 2rem 0.5rem var(--button-hover);
-        transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+        transition:
+            opacity 0.2s ease-in-out,
+            visibility 0.2s ease-in-out;
     }
 
     a.back-to-top-fallback {
@@ -256,7 +279,8 @@ const { title, totalFeedCount } = Astro.props;
         background-color: var(--text-color);
     }
 
-    a.back-to-top-fallback svg, .back-to-top svg {
+    a.back-to-top-fallback svg,
+    .back-to-top svg {
         height: 70%;
         stroke: var(--background-color);
         stroke-width: 3;
@@ -296,26 +320,46 @@ const { title, totalFeedCount } = Astro.props;
 </style>
 
 <script>
-    import.meta.glob("/node_modules/@murtuzaalisurti/back-to-top/public/main.js", { eager: true });
+    import.meta.glob(
+        "/node_modules/@murtuzaalisurti/back-to-top/public/main.js",
+        { eager: true }
+    );
 </script>
 
-<script defer is:inline>
-    (async () => {
-        let pagefind;
-        document.querySelector("#search").addEventListener("focus", async (e) => {
-            if (!pagefind) {
-                pagefind = await import("/pagefind/pagefind.js");
-                pagefind.init();
-            }
-        })
+<script>
+    import lodash from 'lodash';
 
-        document.querySelector("#search").addEventListener("keydown", async (e) => {
-            const results = await (await pagefind.search(e.target.value)).results;
+    let pagefind: any;
+    const searchField = document.querySelector("#search") as HTMLInputElement;
+    const searchResults = document.querySelector("#searchResults") as HTMLElement;
+    searchField.addEventListener("focus", async () => {
+        if (!pagefind) {
+            pagefind = await import("/pagefind/pagefind.js?url");
+            pagefind.init();
+        }
+    });
+
+    searchField.addEventListener("keydown", lodash.debounce(async () => {
+        const results = await (await pagefind.debouncedSearch(searchField.value, {}, 700))?.results;
+        if (results) {
             for (const result of results) {
                 const data = await result.data();
                 console.log(data, data.meta.title, data.excerpt);
+    
+                const title = document.createElement("a");
+                title.setAttribute("href", data.meta.title);
+                title.innerText = data.meta.title;
+    
+                const excerpt = document.createElement("p");
+                excerpt.innerText = data.excerpt;
+    
+                const snippet = document.createElement("div");
+                snippet.setAttribute("id", "result");
+                snippet.appendChild(title);
+                snippet.appendChild(excerpt);
+    
+                searchResults.appendChild(snippet);
             }
-        })
-
-    })()
+        }
+    }, 700));
 </script>
