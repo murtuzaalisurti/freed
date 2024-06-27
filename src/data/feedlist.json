@@ -482,5 +482,33 @@
   {
     "id": "01903edf-027e-7ff3-b75f-ec0e0d015e3d",
     "url": "https://danielnagy.me/rss.xml"
+  },
+  {
+    "id": "01904637-175d-777c-9ee2-d30163189f66",
+    "url": "https://2ality.com/feeds/posts.atom"
+  },
+  {
+    "id": "01904637-5cc2-7aaf-9f2c-bced6ec284e9",
+    "url": "https://www.lirantal.com/rss.xml"
+  },
+  {
+    "id": "01904637-b3d4-7556-8c70-1a82e1cf61c7",
+    "url": "https://chrispennington.blog/blog.xml"
+  },
+  {
+    "id": "01904637-f302-7eea-a0da-f77a222eb1e4",
+    "url": "https://dbushell.com/rss.xml"
+  },
+  {
+    "id": "01904638-3297-7cc8-9de7-a0382ce50b28",
+    "url": "https://flamedfury.com/feed.xml"
+  },
+  {
+    "id": "01904638-77a6-7997-946a-ae72e9b47738",
+    "url": "https://11tybundle.dev/feed.xml"
+  },
+  {
+    "id": "01904638-b999-700f-85ae-bb664dddff06",
+    "url": "https://katydecorah.com/feed.xml"
   }
 ]
