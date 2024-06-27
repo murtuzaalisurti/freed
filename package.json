@@ -11,7 +11,7 @@
     "serve:pagefind": "npx pagefind --serve",
     "dev:astro": "astro dev",
     "dev": "npm-run-all -s build:pagefind static:pagefind dev:astro",
-    "dev:build": "npm-run-all -s build build:pagefind static:pagefind dev:astro",
+    "dev:build": "npm-run-all -s build dev",
     "preview": "astro preview",
     "astro": "astro",
     "prepare": "is-ci || husky",
