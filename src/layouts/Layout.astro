@@ -116,11 +116,11 @@ const { title, totalFeedCount } = Astro.props;
                 }
             </div>
             <search>
-                <input id="search" type="text" autocomplete="off" />
+                <input id="search" type="text" autocomplete="off" placeholder="Search" />
                 <div id="searchResults"></div>
             </search>
         </header>
-        <main>
+        <main data-pagefind-body>
             <slot />
         </main>
         <footer>
@@ -319,6 +319,38 @@ const { title, totalFeedCount } = Astro.props;
     }
 </style>
 
+<style is:inline>
+    search {
+        margin-top: 1rem;
+    }
+    #search {
+        width: 100%;
+        padding: 0.7rem 1rem;
+        background: var(--background-color);
+        outline: none;
+        border: 0.3rem solid rgba(201, 125, 96, 0.3);
+        border-radius: 0.7rem;
+        color: var(--text-color);
+        font: inherit;
+    }
+
+    #search::placeholder {
+        color: var(--text-color);
+        color: rgb(from var(--text-color) r g b / 0.5);
+    }
+
+    #searchResults {
+        min-height: fit-content;
+        max-height: 30rem;
+        overflow-y: auto;
+        padding: 1rem 0.5rem;
+    }
+
+    .searchResult {
+        margin-bottom: 1.5rem;
+    }
+</style>
+
 <script>
     import.meta.glob(
         "/node_modules/@murtuzaalisurti/back-to-top/public/main.js",
@@ -327,11 +359,14 @@ const { title, totalFeedCount } = Astro.props;
 </script>
 
 <script>
-    import lodash from 'lodash';
+    import lodash from "lodash";
 
     let pagefind: any;
     const searchField = document.querySelector("#search") as HTMLInputElement;
-    const searchResults = document.querySelector("#searchResults") as HTMLElement;
+    const searchResults = document.querySelector(
+        "#searchResults"
+    ) as HTMLElement;
+
     searchField.addEventListener("focus", async () => {
         if (!pagefind) {
             pagefind = await import("/pagefind/pagefind.js?url");
@@ -339,27 +374,42 @@ const { title, totalFeedCount } = Astro.props;
         }
     });
 
-    searchField.addEventListener("keydown", lodash.debounce(async () => {
-        const results = await (await pagefind.debouncedSearch(searchField.value, {}, 700))?.results;
-        if (results) {
+    const search = async () => {
+        const results = await (
+            await pagefind.debouncedSearch(searchField.value, {}, 700)
+        )?.results;
+        searchResults.innerHTML = "";
+
+        if (results.length > 0) {
             for (const result of results) {
                 const data = await result.data();
                 console.log(data, data.meta.title, data.excerpt);
-    
+
                 const title = document.createElement("a");
-                title.setAttribute("href", data.meta.title);
+                title.setAttribute("href", data.url);
                 title.innerText = data.meta.title;
-    
+
                 const excerpt = document.createElement("p");
                 excerpt.innerText = data.excerpt;
-    
+
                 const snippet = document.createElement("div");
-                snippet.setAttribute("id", "result");
+                snippet.classList.add("searchResult");
                 snippet.appendChild(title);
                 snippet.appendChild(excerpt);
-    
+
                 searchResults.appendChild(snippet);
             }
+        } else {
+            if (searchField.value !== "") {
+                searchResults.innerText = "No results found!"
+            }
         }
-    }, 700));
+    };
+
+    searchField.addEventListener(
+        "keydown",
+        lodash.debounce(async () => {
+            await search();
+        }, 700)
+    );
 </script>
