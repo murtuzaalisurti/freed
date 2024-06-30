@@ -131,7 +131,7 @@ const props = Astro.props;
 
     const search = async () => {
         const results = await (
-            await pagefind.debouncedSearch(searchField.value, {}, 650)
+            await pagefind.debouncedSearch(searchField.value, {}, 500)
         )?.results;
 
         if (results && results.length > 0) {
