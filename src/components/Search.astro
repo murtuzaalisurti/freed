@@ -131,58 +131,60 @@ const props = Astro.props;
 
     const search = async () => {
         console.log(searchField.value);
-        const results = await (
-            await pagefind.debouncedSearch(searchField.value, {}, 500)
-        )?.results;
 
-        if (results && results.length > 0) {
-            let resultsVisible = false;
-            let firstResultFetched = false;
-
-            for (const result of results) {
-                const data = await result.data();
-
-                const title = document.createElement("a");
-                title.setAttribute("href", data.url);
-
-                const displayTitle = data.meta.title.split(" - ").filter((word: string, i: number, arr: string[]) => {
-                    if (i === 0 || i === arr.length - 1) return false;
-                    return true;
-                }).join(" - ");
-
-                title.innerText = displayTitle;
-
-                const excerpt = document.createElement("p");
-                excerpt.innerHTML = data.excerpt;
-
-                const snippet = document.createElement("div");
-                snippet.classList.add("searchResult");
-                snippet.appendChild(title);
-                snippet.appendChild(excerpt);
-
-                if (!firstResultFetched) {
-                    searchResults.innerHTML = "";
-                    searchResults.innerText = "";
-                    firstResultFetched = true;
+        if (searchField.value && searchField.value !== "") {
+            const results = await (
+                await pagefind.debouncedSearch(searchField.value, {}, 500)
+            )?.results;
+    
+            if (results && results.length > 0) {
+                let resultsVisible = false;
+                let firstResultFetched = false;
+    
+                for (const result of results) {
+                    const data = await result.data();
+    
+                    const title = document.createElement("a");
+                    title.setAttribute("href", data.url);
+    
+                    const displayTitle = data.meta.title.split(" - ").filter((word: string, i: number, arr: string[]) => {
+                        if (i === 0 || i === arr.length - 1) return false;
+                        return true;
+                    }).join(" - ");
+    
+                    title.innerText = displayTitle;
+    
+                    const excerpt = document.createElement("p");
+                    excerpt.innerHTML = data.excerpt;
+    
+                    const snippet = document.createElement("div");
+                    snippet.classList.add("searchResult");
+                    snippet.appendChild(title);
+                    snippet.appendChild(excerpt);
+    
+                    if (!firstResultFetched) {
+                        searchResults.innerHTML = "";
+                        searchResults.innerText = "";
+                        firstResultFetched = true;
+                    }
+                    searchResults.appendChild(snippet);
+    
+                    if (!resultsVisible) {
+                        searchResults.style.visibility = "visible";
+                        resultsVisible = true;
+                    }
                 }
-                searchResults.appendChild(snippet);
-
-                if (!resultsVisible) {
-                    searchResults.style.visibility = "visible";
-                    resultsVisible = true;
-                }
+            } else {
+                searchResults.innerHTML = "";
+                searchResults.innerText = "";
+                searchResults.innerText = "No results found!";
+                searchResults.style.visibility = "visible";
+                console.log("check", searchResults);
             }
         } else {
             searchResults.innerHTML = "";
             searchResults.innerText = "";
-            // searchResults.style.visibility = "hidden";
-            console.log("check", searchResults);
-            if (searchField.value !== "") {
-                searchResults.innerText = "No results found!";
-                searchResults.style.visibility = "visible";
-            } else {
-                searchResults.style.visibility = "hidden";
-            }
+            searchResults.style.visibility = "hidden";
         }
 
         progressRing.style.display = "none";
