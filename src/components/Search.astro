@@ -138,6 +138,7 @@ const props = Astro.props;
             )?.results;
     
             if (results && results.length > 0) {
+                let searchValue = searchField.value;
                 let resultsVisible = false;
                 let firstResultFetched = false;
     
@@ -167,7 +168,11 @@ const props = Astro.props;
                         searchResults.innerText = "";
                         firstResultFetched = true;
                     }
-                    searchResults.appendChild(snippet);
+
+                    // this is to prevent a race condition in which if we change the input value halfway through the appending of data, even if we set innerHTML and innerText to "" once, but still the previous loop continues appending elements (overriding the clearing of the element). Thus, we get a blank element with elements in it but not visible.
+                    if (searchValue === searchField.value) {
+                        searchResults.appendChild(snippet);
+                    }
     
                     if (!resultsVisible) {
                         searchResults.style.visibility = "visible";
