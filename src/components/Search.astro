@@ -134,12 +134,12 @@ const props = Astro.props;
             await pagefind.debouncedSearch(searchField.value, {}, 650)
         )?.results;
 
-        progressRing.style.display = "none";
         searchResults.innerHTML = "";
         searchResults.innerText = "";
-        searchResults.style.visibility = "visible";
 
         if (results && results.length > 0) {
+            let resultsVisible = false;
+
             for (const result of results) {
                 const data = await result.data();
 
@@ -162,14 +162,21 @@ const props = Astro.props;
                 snippet.appendChild(excerpt);
 
                 searchResults.appendChild(snippet);
+                if (!resultsVisible) {
+                    searchResults.style.visibility = "visible";
+                    resultsVisible = true;
+                }
             }
         } else {
             if (searchField.value !== "") {
                 searchResults.innerText = "No results found!";
+                searchResults.style.visibility = "visible";
             } else {
                 searchResults.style.visibility = "hidden";
             }
         }
+
+        progressRing.style.display = "none";
     };
 
     searchField.addEventListener(
