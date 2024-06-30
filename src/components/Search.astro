@@ -130,6 +130,7 @@ const props = Astro.props;
     });
 
     const search = async () => {
+        console.log(searchField.value);
         const results = await (
             await pagefind.debouncedSearch(searchField.value, {}, 500)
         )?.results;
@@ -174,6 +175,7 @@ const props = Astro.props;
         } else {
             searchResults.innerHTML = "";
             searchResults.innerText = "";
+            // searchResults.style.visibility = "hidden";
             console.log("check", searchResults);
             if (searchField.value !== "") {
                 searchResults.innerText = "No results found!";
