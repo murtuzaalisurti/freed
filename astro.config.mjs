@@ -7,5 +7,12 @@ export default defineConfig({
   server: {
     port: 3000
   },
+  vite: {
+    build: {
+      rollupOptions: {
+        external: '/pagefind/pagefind.js?url'
+      }
+    }
+  },
   adapter: netlify()
 });

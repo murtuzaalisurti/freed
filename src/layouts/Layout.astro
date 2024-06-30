@@ -2,6 +2,8 @@
 import "@fontsource-variable/montserrat";
 import "@fontsource-variable/rubik";
 
+import Search from "../components/Search.astro";
+
 interface Props {
     title: string;
     totalFeedCount: number;
@@ -21,7 +23,7 @@ const { title, totalFeedCount } = Astro.props;
             name="description"
             content="a collection of dev rss feeds - blogroll"
         />
-        <meta property="og:title" content="rssed" />
+        <meta property="og:title" content={title} />
         <meta
             property="og:description"
             content="a collection of dev rss feeds - blogroll"
@@ -31,15 +33,33 @@ const { title, totalFeedCount } = Astro.props;
             property="og:image:secure_url"
             content="https://rssed.netlify.app/assets/rssedOg.jpg"
         />
-        <title>{title}</title>
+        <title data-pagefind-meta="title">{title}</title>
     </head>
     <body>
         <back-to-top>
             <a class="back-to-top-fallback" href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    ><path d="m18 15-6-6-6 6"></path></svg
+                >
             </a>
             <template>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    ><path d="m18 15-6-6-6 6"></path></svg
+                >
             </template>
         </back-to-top>
         <header>
@@ -90,13 +110,16 @@ const { title, totalFeedCount } = Astro.props;
                 </a>
                 {
                     totalFeedCount > 0 && (
-                        <p>+</p>
-                        <p>{totalFeedCount} feeds</p>
+                        <>
+                            <p>+</p>
+                            <p>{totalFeedCount} feeds</p>
+                        </>
                     )
                 }
             </div>
+            <Search />
         </header>
-        <main>
+        <main data-pagefind-body>
             <slot />
         </main>
         <footer>
@@ -114,6 +137,11 @@ const { title, totalFeedCount } = Astro.props;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+    }
+
+    :root {
+        --md-circular-progress-active-indicator-width: 15;
+        --md-circular-progress-size: 2rem;
     }
 
     html {
@@ -150,14 +178,8 @@ const { title, totalFeedCount } = Astro.props;
         --background-color: #262322;
         --text-color: #f2e5d7;
         --button-hover: #443632;
-        color: var(--text-color);
-        background-color: var(--background-color);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-family:
-            "Rubik Variable",
-            system-ui,
+        --md-circular-progress-active-indicator-color: var(--text-color);
+        --system-font-family: system-ui,
             -apple-system,
             BlinkMacSystemFont,
             "Segoe UI",
@@ -168,6 +190,14 @@ const { title, totalFeedCount } = Astro.props;
             "Apple Color Emoji",
             "Segoe UI Emoji",
             "Segoe UI Symbol";
+        color: var(--text-color);
+        background-color: var(--background-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family:
+            "Rubik Variable",
+            var(--system-font-family);
     }
 
     a {
@@ -179,7 +209,6 @@ const { title, totalFeedCount } = Astro.props;
     header {
         width: 90%;
         max-width: 40rem;
-        padding: 2rem 0;
     }
 
     header {
@@ -192,7 +221,7 @@ const { title, totalFeedCount } = Astro.props;
     h4,
     h5,
     h6 {
-        font-family: "Montserrat Variable", sans-serif;
+        font-family: "Montserrat Variable", var(--system-font-family);
         text-wrap: balance;
         line-height: 1.5;
     }
@@ -230,7 +259,8 @@ const { title, totalFeedCount } = Astro.props;
         font-size: 1.35rem;
     }
 
-    .back-to-top, a.back-to-top-fallback {
+    .back-to-top,
+    a.back-to-top-fallback {
         bottom: 3rem;
         right: 2rem;
         width: 3rem;
@@ -241,7 +271,9 @@ const { title, totalFeedCount } = Astro.props;
         z-index: 10;
         cursor: pointer;
         box-shadow: 0 0 2rem 0.5rem var(--button-hover);
-        transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+        transition:
+            opacity 0.2s ease-in-out,
+            visibility 0.2s ease-in-out;
     }
 
     a.back-to-top-fallback {
@@ -252,7 +284,8 @@ const { title, totalFeedCount } = Astro.props;
         background-color: var(--text-color);
     }
 
-    a.back-to-top-fallback svg, .back-to-top svg {
+    a.back-to-top-fallback svg,
+    .back-to-top svg {
         height: 70%;
         stroke: var(--background-color);
         stroke-width: 3;
@@ -292,5 +325,12 @@ const { title, totalFeedCount } = Astro.props;
 </style>
 
 <script>
-    import.meta.glob("/node_modules/@murtuzaalisurti/back-to-top/public/main.js", { eager: true });
+    import.meta.glob(
+        "/node_modules/@murtuzaalisurti/back-to-top/public/main.js",
+        { eager: true }
+    );
+    import.meta.glob(
+        "/node_modules/@material/web/progress/circular-progress.js",
+        { eager: true }
+    );
 </script>

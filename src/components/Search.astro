@@ -1,0 +1,202 @@
+---
+const props = Astro.props;
+---
+<search>
+    <div class="searchInputContainer">
+        <input
+            id="search"
+            type="text"
+            autocomplete="off"
+            placeholder="Search"
+        />
+        <span class="searchProgress">
+            <md-circular-progress indeterminate></md-circular-progress>
+        </span>
+    </div>
+    <div id="searchResults"></div>
+</search>
+
+<style is:inline>
+    .searchInputContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: stretch;
+        border: 0.3rem solid rgba(201, 125, 96, 0.3);
+        border-radius: 0.7rem;
+        overflow: hidden;
+    }
+
+    .searchProgress {
+        width: 3rem;
+        display: none;
+    }
+
+    search {
+        margin-top: 3rem;
+    }
+    #search {
+        width: 100%;
+        padding: 0.7rem 1rem;
+        background: var(--background-color);
+        outline: none;
+        border: none;
+        color: var(--text-color);
+        font: inherit;
+    }
+
+    #search::placeholder {
+        color: var(--text-color);
+        color: rgb(from var(--text-color) r g b / 0.5);
+    }
+
+    #searchResults {
+        min-height: fit-content;
+        max-height: calc(100svh - 20rem);
+        overflow-y: auto;
+        padding: 1rem 1rem;
+        border: 0.3rem solid rgba(201, 125, 96, 0.3);
+        border-radius: 0.7rem;
+        margin-top: 0.5rem;
+        background: rgba(201, 126, 96, 0.102);
+        visibility: hidden;
+    }
+
+    #searchResults::-webkit-scrollbar {
+        width: 0.5rem;
+    }
+
+    #searchResults::-webkit-scrollbar-track {
+        background-color: rgba(201, 126, 96, 0.102);
+    }
+
+    #searchResults::-webkit-scrollbar-thumb {
+        background-color: var(--text-color);
+        border-radius: 0.7rem;
+    }
+
+    /* Browsers without `::-webkit-scrollbar-*` support */
+    @supports (not selector(::-webkit-scrollbar)) {
+        #searchResults {
+            scrollbar-color: #f2e5d7 #c97e601a;
+            scrollbar-width: thin;
+        }
+    }
+
+    .searchResult:not(:last-child) {
+        margin-bottom: 1.6rem;
+    }
+
+    .searchResult {
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+    }
+
+    .searchResult a {
+        font-size: larger;
+        font-family: 'Montserrat Variable', var(--system-font-family);
+        font-weight: bold;
+    }
+
+    .searchResult p {
+        font-size: small;
+        line-height: 1.5;
+    }
+
+    .searchResult mark {
+        background: rgba(202, 137, 111, 0.341);
+        color: var(--text-color);
+        padding: 0.07rem 0.3rem;
+        border-radius: 0.2rem;
+    }
+</style>
+
+<script>
+    import lodash from "lodash";
+
+    let pagefind: any;
+    const searchField = document.querySelector("#search") as HTMLInputElement;
+    const progressRing = document.querySelector(".searchProgress") as HTMLElement;
+    const searchResults = document.querySelector(
+        "#searchResults"
+    ) as HTMLElement;
+
+    searchField.addEventListener("focus", async () => {
+        if (!pagefind) {
+            pagefind = await import("/pagefind/pagefind.js?url");
+            pagefind.init();
+        }
+    });
+
+    const search = async () => {
+        if (searchField.value && searchField.value !== "") {
+            const results = await (
+                await pagefind.debouncedSearch(searchField.value, {}, 500)
+            )?.results;
+    
+            if (results && results.length > 0) {
+                let searchValue = searchField.value;
+                let resultsVisible = false;
+                let firstResultFetched = false;
+    
+                for (const result of results) {
+                    const data = await result.data();
+    
+                    const title = document.createElement("a");
+                    title.setAttribute("href", data.url);
+    
+                    const displayTitle = data.meta.title.split(" - ").filter((word: string, i: number, arr: string[]) => {
+                        if (i === 0 || i === arr.length - 1) return false;
+                        return true;
+                    }).join(" - ");
+    
+                    title.innerText = displayTitle;
+    
+                    const excerpt = document.createElement("p");
+                    excerpt.innerHTML = data.excerpt;
+    
+                    const snippet = document.createElement("div");
+                    snippet.classList.add("searchResult");
+                    snippet.appendChild(title);
+                    snippet.appendChild(excerpt);
+    
+                    if (!firstResultFetched) {
+                        searchResults.innerHTML = "";
+                        searchResults.innerText = "";
+                        firstResultFetched = true;
+                    }
+
+                    // this is to prevent a race condition in which if we change the input value halfway through the appending of data, even if we set innerHTML and innerText to "" once, but still the previous loop continues appending elements (overriding the clearing of the element). Thus, we get a blank element with elements in it but not visible.
+                    if (searchValue === searchField.value) {
+                        searchResults.appendChild(snippet);
+                    }
+    
+                    if (!resultsVisible) {
+                        searchResults.style.visibility = "visible";
+                        resultsVisible = true;
+                    }
+                }
+            } else {
+                searchResults.innerHTML = "";
+                searchResults.innerText = "";
+                searchResults.innerText = "No results found!";
+                searchResults.style.visibility = "visible";
+            }
+        } else {
+            searchResults.innerHTML = "";
+            searchResults.innerText = "";
+            searchResults.style.visibility = "hidden";
+        }
+
+        progressRing.style.display = "none";
+    };
+
+    searchField.addEventListener(
+        "keydown",
+        lodash.debounce(async () => {
+            progressRing.style.display = 'initial';
+            await search();
+        }, 650)
+    );
+</script>
