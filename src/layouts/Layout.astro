@@ -2,6 +2,8 @@
 import "@fontsource-variable/montserrat";
 import "@fontsource-variable/rubik";
 
+import Search from "../components/Search.astro";
+
 interface Props {
     title: string;
     totalFeedCount: number;
@@ -115,10 +117,7 @@ const { title, totalFeedCount } = Astro.props;
                     )
                 }
             </div>
-            <search>
-                <input id="search" type="text" autocomplete="off" placeholder="Search" />
-                <div id="searchResults"></div>
-            </search>
+            <Search />
         </header>
         <main data-pagefind-body>
             <slot />
@@ -138,6 +137,11 @@ const { title, totalFeedCount } = Astro.props;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+    }
+
+    :root {
+        --md-circular-progress-active-indicator-width: 15;
+        --md-circular-progress-size: 2rem;
     }
 
     html {
@@ -174,14 +178,8 @@ const { title, totalFeedCount } = Astro.props;
         --background-color: #262322;
         --text-color: #f2e5d7;
         --button-hover: #443632;
-        color: var(--text-color);
-        background-color: var(--background-color);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-family:
-            "Rubik Variable",
-            system-ui,
+        --md-circular-progress-active-indicator-color: var(--text-color);
+        --system-font-family: system-ui,
             -apple-system,
             BlinkMacSystemFont,
             "Segoe UI",
@@ -192,6 +190,14 @@ const { title, totalFeedCount } = Astro.props;
             "Apple Color Emoji",
             "Segoe UI Emoji",
             "Segoe UI Symbol";
+        color: var(--text-color);
+        background-color: var(--background-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family:
+            "Rubik Variable",
+            var(--system-font-family);
     }
 
     a {
@@ -203,7 +209,6 @@ const { title, totalFeedCount } = Astro.props;
     header {
         width: 90%;
         max-width: 40rem;
-        padding: 2rem 0;
     }
 
     header {
@@ -216,7 +221,7 @@ const { title, totalFeedCount } = Astro.props;
     h4,
     h5,
     h6 {
-        font-family: "Montserrat Variable", sans-serif;
+        font-family: "Montserrat Variable", var(--system-font-family);
         text-wrap: balance;
         line-height: 1.5;
     }
@@ -319,97 +324,13 @@ const { title, totalFeedCount } = Astro.props;
     }
 </style>
 
-<style is:inline>
-    search {
-        margin-top: 1rem;
-    }
-    #search {
-        width: 100%;
-        padding: 0.7rem 1rem;
-        background: var(--background-color);
-        outline: none;
-        border: 0.3rem solid rgba(201, 125, 96, 0.3);
-        border-radius: 0.7rem;
-        color: var(--text-color);
-        font: inherit;
-    }
-
-    #search::placeholder {
-        color: var(--text-color);
-        color: rgb(from var(--text-color) r g b / 0.5);
-    }
-
-    #searchResults {
-        min-height: fit-content;
-        max-height: 30rem;
-        overflow-y: auto;
-        padding: 1rem 0.5rem;
-    }
-
-    .searchResult {
-        margin-bottom: 1.5rem;
-    }
-</style>
-
 <script>
     import.meta.glob(
         "/node_modules/@murtuzaalisurti/back-to-top/public/main.js",
         { eager: true }
     );
-</script>
-
-<script>
-    import lodash from "lodash";
-
-    let pagefind: any;
-    const searchField = document.querySelector("#search") as HTMLInputElement;
-    const searchResults = document.querySelector(
-        "#searchResults"
-    ) as HTMLElement;
-
-    searchField.addEventListener("focus", async () => {
-        if (!pagefind) {
-            pagefind = await import("/pagefind/pagefind.js?url");
-            pagefind.init();
-        }
-    });
-
-    const search = async () => {
-        const results = await (
-            await pagefind.debouncedSearch(searchField.value, {}, 700)
-        )?.results;
-        searchResults.innerHTML = "";
-
-        if (results.length > 0) {
-            for (const result of results) {
-                const data = await result.data();
-                console.log(data, data.meta.title, data.excerpt);
-
-                const title = document.createElement("a");
-                title.setAttribute("href", data.url);
-                title.innerText = data.meta.title;
-
-                const excerpt = document.createElement("p");
-                excerpt.innerText = data.excerpt;
-
-                const snippet = document.createElement("div");
-                snippet.classList.add("searchResult");
-                snippet.appendChild(title);
-                snippet.appendChild(excerpt);
-
-                searchResults.appendChild(snippet);
-            }
-        } else {
-            if (searchField.value !== "") {
-                searchResults.innerText = "No results found!"
-            }
-        }
-    };
-
-    searchField.addEventListener(
-        "keydown",
-        lodash.debounce(async () => {
-            await search();
-        }, 700)
+    import.meta.glob(
+        "/node_modules/@material/web/progress/circular-progress.js",
+        { eager: true }
     );
 </script>

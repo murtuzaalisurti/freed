@@ -23,6 +23,7 @@
     "@astrojs/netlify": "^5.3.2",
     "@fontsource-variable/montserrat": "^5.0.19",
     "@fontsource-variable/rubik": "^5.0.22",
+    "@material/web": "^1.5.1",
     "@murtuzaalisurti/back-to-top": "^3.0.4",
     "@netlify/functions": "^2.7.0",
     "astro": "^4.11.0",
