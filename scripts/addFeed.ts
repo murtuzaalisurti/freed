@@ -9,22 +9,21 @@ const feedlist: { id: string, url: string }[] = JSON.parse(
     fs.readFileSync(new URL("../src/data/feedlist.json", import.meta.url)) as unknown as string
 );
 
-const updatedFeeds = (feeds: { id: string, url: string }[], url: string) => {
+const updatedFeeds = (feeds: { id: string, url: string }[], urls: string[]) => {
     return [
         ...feeds,
-        {
-            id: v7(),
-            url
-        }
+        ...urls.map(url => ({ id: v7(), url }))
     ]
 }
 
 async function ask() {
     const askPrompts: PromptObject<string>[] = [
         {
-            type: "text",
+            type: "list",
             name: "url",
-            message: "Feed URL: ",
+            message: "Feed URL(s): ",
+            initial: '',
+            separator: ','
         }
     ]
     const onCancel = () => { throw Error("Cancelled..") }
