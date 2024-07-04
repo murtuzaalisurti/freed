@@ -518,5 +518,17 @@
   {
     "id": "01906f29-ca2e-777e-9cca-ec41624019aa",
     "url": "https://www.andrewwalpole.com/feed.xml"
+  },
+  {
+    "id": "01907e25-efb2-799b-94cc-2ff201d53823",
+    "url": "https://stately.ai/blog/rss.xml"
+  },
+  {
+    "id": "01907e25-efb2-799b-94cc-36db2c54d2fb",
+    "url": "https://samueloph.dev/atom.xml"
+  },
+  {
+    "id": "01907e25-efb2-799b-94cc-3a9552bfd321",
+    "url": "https://www.ryangittings.co.uk/blog/"
   }
 ]
