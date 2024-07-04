@@ -48,4 +48,4 @@ fs.writeFileSync(
     }
 )
 
-logger.success(`Added feed "${url}"`)
+logger.success(`Added feed(s): \n\t- ${url.join("\n\t- ")}`)
