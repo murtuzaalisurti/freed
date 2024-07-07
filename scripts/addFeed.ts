@@ -1,5 +1,4 @@
 import fs from 'fs'
-// @ts-ignore
 import { v7 } from 'uuid';
 import prompts, { type PromptObject } from 'prompts'
 import { logger } from '../src/lib/logger.ts'
