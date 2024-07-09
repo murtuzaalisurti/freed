@@ -530,5 +530,13 @@
   {
     "id": "01907e25-efb2-799b-94cc-3a9552bfd321",
     "url": "https://www.ryangittings.co.uk/blog/"
+  },
+  {
+    "id": "01909886-1a11-711e-92d5-ee50fe1e2179",
+    "url": "https://astro.build/rss.xml"
+  },
+  {
+    "id": "01909886-1a11-711e-92d5-f26bb9565c35",
+    "url": "https://trost.codes/rss.xml"
   }
 ]
