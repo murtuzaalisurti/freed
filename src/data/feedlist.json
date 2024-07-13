@@ -538,5 +538,13 @@
   {
     "id": "01909886-1a11-711e-92d5-f26bb9565c35",
     "url": "https://trost.codes/rss.xml"
+  },
+  {
+    "id": "0190ab33-a222-7770-be52-35d9ced93fdc",
+    "url": "https://samwho.dev/rss.xml"
+  },
+  {
+    "id": "0190ab33-a222-7770-be52-3cdeaee025ab",
+    "url": "https://www.georgeho.org/feed.xml"
   }
 ]
