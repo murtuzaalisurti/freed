@@ -20,7 +20,7 @@
     "add-feed": "node --no-warnings=ExperimentalWarning --loader ts-node/esm scripts/addFeed.ts"
   },
   "dependencies": {
-    "@astrojs/netlify": "^5.3.5",
+    "@astrojs/netlify": "^5.4.0",
     "@fontsource-variable/montserrat": "^5.0.19",
     "@fontsource-variable/rubik": "^5.0.22",
     "@material/web": "^1.5.1",
