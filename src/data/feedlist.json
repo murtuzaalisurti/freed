@@ -550,5 +550,21 @@
   {
     "id": "0190b05f-6356-7cce-aa16-031c01a2e471",
     "url": "https://pilcrowonpaper.com/rss.xml"
+  },
+  {
+    "id": "0190b1e9-2c82-7cc9-be07-b401af280ad8",
+    "url": "https://alistairshepherd.uk/feed.xml"
+  },
+  {
+    "id": "0190b1ec-d91d-7aa6-a507-fe4f3b42237a",
+    "url": "https://opensource.com/feed"
+  },
+  {
+    "id": "0190b1ec-d91d-7aa6-a508-024167c033c8",
+    "url": "https://betterdev.blog/rss.xml"
+  },
+  {
+    "id": "0190b1ec-d91d-7aa6-a508-0a8334f903f0",
+    "url": "https://evilmartians.com/chronicles.atom"
   }
 ]
