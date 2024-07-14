@@ -9,6 +9,8 @@ interface Feed {
     url: string
 }
 
+const [_, __, ...args] = process.argv;
+
 const readFeedList = () => {
     const feedlist: Feed[] = JSON.parse(
         fs.readFileSync(new URL("../src/data/feedlist.json", import.meta.url)) as unknown as string
@@ -17,6 +19,8 @@ const readFeedList = () => {
 }
 
 const writeUpdatedFeedList = (updatedFeedList: Feed[]) => {
+    logger.start(`Writing ${url.length} feed(s) to feedlist.json...`)
+
     fs.writeFileSync(
         "./src/data/feedlist.json",
         JSON.stringify(
@@ -51,7 +55,11 @@ const feedlist = readFeedList()
 const { url } = await ask()
 const updatedFeedList = updatedFeeds(feedlist, url)
 
+logger.start(`Validating ${url.length} feed(s)...`)
 validateFeeds(updatedFeedList)
-writeUpdatedFeedList(updatedFeedList)
+logger.success(`Validated ${url.length} feed(s), ready to be added to feedlist.json`)
 
-logger.success(`Added feed(s): \n\t- ${url.join("\n\t- ")}`)
+if (!args.find(arg => arg === "dry")) {
+    writeUpdatedFeedList(updatedFeedList)
+    logger.success(`Added feed(s): \n\t- ${url.join("\n\t- ")}`)
+}
