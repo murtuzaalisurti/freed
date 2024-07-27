@@ -570,5 +570,13 @@
   {
     "id": "0190d405-c099-799c-bcc2-2c0889ca5ea0",
     "url": "https://orth.uk/rss.xml"
+  },
+  {
+    "id": "0190f32e-2dfc-7007-8346-2774f58a0dad",
+    "url": "https://akashrajpurohit.com/rss.xml"
+  },
+  {
+    "id": "0190f32e-2dfd-7007-8346-2ac89ca9b190",
+    "url": "https://kmcd.dev/posts/index.xml"
   }
 ]
