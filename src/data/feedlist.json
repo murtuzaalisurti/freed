@@ -582,5 +582,25 @@
   {
     "id": "019116d5-52d5-7aaf-adff-7492033d7da6",
     "url": "https://zahra.dev/atom.xml"
+  },
+  {
+    "id": "0191172b-5151-7dd5-84db-42b749dbdbcb",
+    "url": "https://danluu.com/atom.xml"
+  },
+  {
+    "id": "0191172b-5151-7dd5-84db-4e99150fe691",
+    "url": "https://jacobian.org/index.xml"
+  },
+  {
+    "id": "0191172b-5151-7dd5-84db-518589c2b458",
+    "url": "https://lethain.com/feeds.xml"
+  },
+  {
+    "id": "0191172b-5152-7dd5-84db-5fc9296c9068",
+    "url": "https://jmduke.com/feed.xml"
+  },
+  {
+    "id": "0191172b-5152-7dd5-84db-6655875e45d6",
+    "url": "https://eva.town/rss.xml"
   }
 ]
