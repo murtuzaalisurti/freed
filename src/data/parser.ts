@@ -13,6 +13,13 @@ const feeds: {
     items: []
 };
 
+const brokenFeedErrorMessageRegex = /status\s*code\s*404/i;
+
+const brokenFeeds: {
+    id: string,
+    url: string
+}[] = [];
+
 const cacheTime = 1800000 // in milliseconds
 
 export const ParseRSS = async (url: string) => {
@@ -46,8 +53,9 @@ const parseAndStoreFeeds = async (list: { id: string, url: string }[]) => {
                     url: site.url,
                 },
                 error
-            })
-            console.timeEnd(`${site.url}`)
+            });
+            brokenFeedErrorMessageRegex.test((error as Error).message) && brokenFeeds.push({ id: site.id, url: site.url });
+            console.timeEnd(`${site.url}`);
         }
     })
 
@@ -62,8 +70,10 @@ const parseAndStoreFeeds = async (list: { id: string, url: string }[]) => {
     const fetchedFeedsLog = `Fetched ${feeds.items.length} feeds successfully out of ${list.length} feeds!`
     logger.ready(`${feeds.items.length === list.length ? colors.green(fetchedFeedsLog) : colors.yellow(fetchedFeedsLog)}`)
 
-    const failedToFetchFeeds = list.filter(f => !feeds.items.map(i => i.id).includes(f.id))
-    failedToFetchFeeds.length > 0 && logger.warn(`${colors.yellow(`Failed feeds: ${failedToFetchFeeds.length}\n`)}${JSON.stringify(failedToFetchFeeds, null, 2)}`)
+    const failedToFetchFeeds = list.filter(f => !feeds.items.map(i => i.id).includes(f.id));
+    failedToFetchFeeds.length > 0 && logger.warn(`${colors.yellow(`Failed feeds: ${failedToFetchFeeds.length}\n`)}${JSON.stringify(failedToFetchFeeds, null, 2)}`);
+
+    brokenFeeds.length > 0 && logger.error(`${colors.red(`Broken feeds: ${brokenFeeds.length}\n`)}${JSON.stringify(brokenFeeds, null, 2)}`);
 }
 
 export const fetchFeedsData = async (list: { id: string, url: string }[]) => {
