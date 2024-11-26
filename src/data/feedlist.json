@@ -646,5 +646,17 @@
   {
     "id": "0192e697-919b-7ee0-9c40-6174627885c9",
     "url": "https://www.cybertec-postgresql.com/en/feed/"
+  },
+  {
+    "id": "01936958-ff57-774f-9905-d507f6dca1b3",
+    "url": "https://blog.dottxt.co/"
+  },
+  {
+    "id": "01936958-ff59-745a-a0d5-0204ee3dd35f",
+    "url": "https://mitchellh.com/feed.xml"
+  },
+  {
+    "id": "01936958-ff59-745a-a0d5-07d66cc508dc",
+    "url": "https://www.ehfeng.com/feed.xml"
   }
 ]
