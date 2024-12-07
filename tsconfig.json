@@ -3,5 +3,7 @@
   "ts-node": {
     // Tell ts-node CLI to install the --loader automatically
     "esm": true
-  }
+  },
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"]
 }

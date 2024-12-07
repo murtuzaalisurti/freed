@@ -20,13 +20,13 @@
     "add-feed": "node --no-warnings=ExperimentalWarning --loader ts-node/esm scripts/addFeed.ts"
   },
   "dependencies": {
-    "@astrojs/netlify": "^5.5.4",
+    "@astrojs/netlify": "^6.0.0",
     "@fontsource-variable/montserrat": "^5.1.0",
     "@fontsource-variable/rubik": "^5.1.0",
     "@material/web": "^2.2.0",
     "@murtuzaalisurti/back-to-top": "^3.0.4",
     "@netlify/functions": "^2.8.2",
-    "astro": "^4.16.16",
+    "astro": "^5.0.3",
     "consola": "^3.2.3",
     "dayjs": "^1.11.13",
     "is-ci": "^3.0.1",
