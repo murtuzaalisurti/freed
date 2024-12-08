@@ -1,4 +1,4 @@
-import FeedList from "../../data/feedlist.json" assert { type: 'json' }
+import FeedList from "../../data/feedlist.json" with { type: 'json' }
 
 /**
  * @explain
