@@ -682,5 +682,21 @@
   {
     "id": "019417c8-49a8-74a3-ad3b-c63510c6ecee",
     "url": "https://blogs.gnome.org/bolsh/feed/"
+  },
+  {
+    "id": "01945577-0162-76ff-9fbb-9e20baaeb608",
+    "url": "https://webpro.nl/blog/feed.xml"
+  },
+  {
+    "id": "01945577-0165-759e-b48e-d53110a7acff",
+    "url": "https://elijahpotter.dev/rss.xml"
+  },
+  {
+    "id": "01945577-0165-759e-b48e-db8168f90ab4",
+    "url": "https://thathtml.blog/feed.xml"
+  },
+  {
+    "id": "01945577-0165-759e-b48e-dee2d178e2b4",
+    "url": "https://jser.dev/rss.xml"
   }
 ]
