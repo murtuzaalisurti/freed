@@ -702,5 +702,33 @@
   {
     "id": "019460ae-066f-7288-818d-799dafc692f7",
     "url": "https://healeycodes.com/feed.xml"
+  },
+  {
+    "id": "01949c8a-dcce-747d-94bf-1750da4fd234",
+    "url": "https://content-blueprint.com/feed/"
+  },
+  {
+    "id": "01949c8a-dccf-776b-96eb-fee5b0c8b254",
+    "url": "https://www.stephaniemorillo.co/blog-feed.xml"
+  },
+  {
+    "id": "01949c8a-dccf-776b-96ec-03e998d81282",
+    "url": "https://maw.sh/rss.xml"
+  },
+  {
+    "id": "01949c8a-dccf-776b-96ec-042efdc55e53",
+    "url": "https://phyks.me/feeds/all.atom.xml"
+  },
+  {
+    "id": "01949c8a-dccf-776b-96ec-09656b94ecc9",
+    "url": "https://antfu.me/feed.xml"
+  },
+  {
+    "id": "01949c8a-dccf-776b-96ec-0dfc52bd4950",
+    "url": "https://www.trevorlasn.com/rss.xml"
+  },
+  {
+    "id": "01949c8a-dccf-776b-96ec-112e3043cb49",
+    "url": "https://infrequently.org/feed/"
   }
 ]
